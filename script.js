@@ -62,22 +62,39 @@ const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
 const displayMovements = movements => {
-  containerMovements.innerHTML = ''
-  
+  containerMovements.innerHTML = '';
+
   movements.forEach((mov, i) => {
-    const type = mov > 0 ? 'deposit' : 'withdrawal'
+    const type = mov > 0 ? 'deposit' : 'withdrawal';
 
     const html = `      
     <div class="movements__row">
-      <div class="movements__type movements__type--${type}">${i + 1} ${type}</div>
+      <div class="movements__type movements__type--${type}">${
+      i + 1
+    } ${type}</div>
       <div class="movements__value">${mov}</div>
     </div>`;
 
-    containerMovements.insertAdjacentHTML('afterbegin', html)
+    containerMovements.insertAdjacentHTML('afterbegin', html);
   });
 };
 
 displayMovements(account1.movements);
+
+const createUsernames = (accounts) => {
+  accounts.forEach(acc => {
+    acc.username = acc.owner
+    .toLowerCase()
+    .split(' ')
+    .map(name => name[0])
+    .join('');
+  })
+}
+
+createUsernames(accounts)
+console.log(accounts);
+
+
 
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
@@ -92,3 +109,18 @@ const currencies = new Map([
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 /////////////////////////////////////////////////
+
+// const eurToUsd = 1.1;
+
+// const movementsUSD = movements.map(mov => mov * eurToUsd);
+// console.log(movements);
+// console.log(movementsUSD);
+
+// const movementsUSDfor = [];
+// for (const mov of movements) {
+//   movementsUSDfor.push(mov * eurToUsd);
+// }
+
+// console.log(movementsUSDfor);
+
+// const movementsDescriptions = movements.map((mov, i) => `Movement ${i +1}: You ${mov > 0 ? 'deposited' : ' withdrew'} ${Math.abs(mov)}`)
