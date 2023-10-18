@@ -120,7 +120,6 @@ const formatMovementDate = (date, locale) => {
   };
 
   const daysPassed = calcDaysPassed(new Date(), date);
-  console.log(daysPassed);
 
   if (daysPassed === 0) return 'Today';
   if (daysPassed === 1) return 'Yesterday';
@@ -147,10 +146,19 @@ const displayMovements = (account, sort = false) => {
     ? account.movements.slice().sort((a, b) => a - b)
     : account.movements;
 
+    console.log(movs);
+    console.log(account);
+
   movs.forEach((mov, i) => {
     const type = mov > 0 ? 'deposit' : 'withdrawal';
 
-    const date = new Date(account.movementsDates[i]);
+    let date = new Date(account.movementsDates[i]);
+
+    if(sort) { // if we sort we need to adjust displaying dates in good place
+      const indexOfDate = account.movements.indexOf(mov)
+      date = new Date(account.movementsDates[indexOfDate])
+    }
+    
     const displayDate = formatMovementDate(date, account.locale);
 
     const formattedMov = formatCur(mov, account.locale, account.currency);
